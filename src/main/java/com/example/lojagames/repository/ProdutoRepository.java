@@ -11,7 +11,9 @@ import com.example.lojagames.model.Produtos;
 public interface ProdutoRepository extends JpaRepository<Produtos, Long> {
 	public List<Produtos> findAllByNomeContainingIgnoreCase(String nome);
 
-	public List<Produtos> findByPrecoGreaderThanOrderByPreco(double preco);
+	public List<Produtos> findByPrecoGreaterThanOrderByPreco(double preco);
 
 	public List<Produtos> findByPrecoLessThanOrderByPrecoDesc(double preco);
+	
 }
+

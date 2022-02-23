@@ -75,5 +75,13 @@ public class ProdutoController {
 			return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
 		}).orElse(ResponseEntity.notFound().build());
 	}
-
+	
+	@GetMapping("/maiorpreco/{preco}")
+	public ResponseEntity<List<Produtos>> getPrecoMaiorQue(@PathVariable double preco) {
+		return ResponseEntity.ok(produtoRepository.findByPrecoGreaderThanOrderByPreco(preco));
+	}
+	@GetMapping("/menorpreco/{preco}")
+	public ResponseEntity<List<Produtos>> getPrecoMenorQue(@PathVariable double preco) {
+		return ResponseEntity.ok(produtoRepository.findByPrecoLessThanOrderByPrecoDesc(preco));
+	}
 }

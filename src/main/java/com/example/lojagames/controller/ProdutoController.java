@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.example.lojagames.model.Produtos;
 import com.example.lojagames.repository.CategoriaRepository;
 import com.example.lojagames.repository.ProdutoRepository;
+import com.example.lojagames.service.ProdutoService;
 
 @RestController
 @RequestMapping("/produtos")
@@ -32,7 +33,10 @@ public class ProdutoController {
 	@Autowired // cria a injeção de dependencia
 	private CategoriaRepository categoriaRepository;
 
-	@GetMapping
+	@Autowired
+	private ProdutoService produtoService;
+
+	@GetMapping("/all")
 	public ResponseEntity<List<Produtos>> getAll() {
 		return ResponseEntity.ok(produtoRepository.findAll());
 	}
@@ -84,6 +88,12 @@ public class ProdutoController {
 	@GetMapping("/menorpreco/{preco}")
 	public ResponseEntity<List<Produtos>> getPrecoMenorQue(@PathVariable double preco) {
 		return ResponseEntity.ok(produtoRepository.findByPrecoLessThanOrderByPrecoDesc(preco));
+	}
+
+	@PutMapping("/curtir/{id}")
+	public ResponseEntity<Produtos> curtirProdutoId(@PathVariable Long id) {
+		return produtoService.curtir(id).map(resp -> ResponseEntity.ok(resp))
+				.orElse(ResponseEntity.badRequest().build());
 	}
 
 }

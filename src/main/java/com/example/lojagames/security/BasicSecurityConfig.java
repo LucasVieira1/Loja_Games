@@ -15,6 +15,16 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 @EnableWebSecurity
 public class BasicSecurityConfig extends WebSecurityConfigurerAdapter {
 
+	/**
+	 * A annotation @Autowired insere uma Injeção de Dependência.
+	 * 
+	 * Como iremos utilizar os usuários salvos no nosso Banco de dados, na tabela
+	 * tb_usuarios, para efetuar o login na api precisamos injetar um objeto da
+	 * Interface UserDetailsService que será implementada na Classe
+	 * UserDetailsServiceImpl que fará o acesso ao nosso Banco de dados para
+	 * recuperar os dados do usuário.
+	 */
+
 	@Autowired
 	private UserDetailsService userDetailsService;
 
@@ -37,9 +47,9 @@ public class BasicSecurityConfig extends WebSecurityConfigurerAdapter {
 	protected void configure(HttpSecurity http) throws Exception {
 
 		http.authorizeRequests().antMatchers("/usuarios/logar").permitAll().antMatchers("/usuarios/cadastrar")
-				.permitAll().antMatchers(HttpMethod.OPTIONS).permitAll().anyRequest().authenticated().and().httpBasic()
-				.and().sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and().cors().and()
-				.csrf().disable();
+				.permitAll().antMatchers("/produtos/all").permitAll().antMatchers(HttpMethod.OPTIONS).permitAll()
+				.anyRequest().authenticated().and().httpBasic().and().sessionManagement()
+				.sessionCreationPolicy(SessionCreationPolicy.STATELESS).and().cors().and().csrf().disable();
 
 	}
 }
